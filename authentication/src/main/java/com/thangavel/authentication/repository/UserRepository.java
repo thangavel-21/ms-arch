@@ -10,5 +10,4 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends CrudRepository<UserDao, Integer> {
     Optional<UserDao> findByEmail(String email);
-//    Optional<UserDao> findById(UUID id);
 }
