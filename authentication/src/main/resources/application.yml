@@ -1,0 +1,35 @@
+server:
+  port: ${SERVER_PORT:8005}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/users
+    driver-class-name: org.postgresql.Driver
+    username: thangavel
+    password: password
+
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+security:
+  jwt:
+    secret-key: 2ac4f7c9174d32ae74e722aebaa7c45100dec243c7f80d103bf199d945d332f9
+    expiration-time: 3600000
+
