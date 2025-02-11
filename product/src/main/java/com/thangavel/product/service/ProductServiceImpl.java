@@ -4,7 +4,6 @@ import com.thangavel.product.dto.ProductDTO;
 import com.thangavel.product.dao.ProductModel;
 import com.thangavel.product.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public ProductDTO saveProduct(UUID userId, ProductDTO productDTO) {
@@ -56,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductDTO convertToDTO(ProductModel product) {
-        return new ProductDTO(product.getUserId(), product.getId(), product.getName(), product.getDescription(), product.getCategory(), product.getPrice());
+        return new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getCategory(), product.getPrice());
     }
 
     private ProductModel convertToEntity(UUID userId, ProductDTO productDTO) {

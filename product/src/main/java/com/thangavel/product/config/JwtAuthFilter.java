@@ -1,5 +1,7 @@
 package com.thangavel.product.config;
 
+import com.thangavel.product.exception.CustomException;
+import com.thangavel.product.exception.ErrorCode;
 import com.thangavel.product.external.AuthFeignClient;
 import feign.FeignException;
 import jakarta.servlet.FilterChain;
@@ -19,7 +21,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-import java.util.UUID;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -51,7 +52,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             String userId = (String) claimsMap.get("userId");  // Extract 'sub' field
             String userName = claimsMap.get("firstName") + " " + claimsMap.get("lastName");  // Extract 'sub' field
-            request.setAttribute("userId", UUID.fromString(userId));
+            request.setAttribute("userId", userId);
 
             // Create a UserDetails object for Spring Security context
             UserDetails userDetails = new User(userName, "", Collections.emptyList());
@@ -64,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (FeignException e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+            throw new CustomException(ErrorCode.InvalidUserException);
         }
     }
 }

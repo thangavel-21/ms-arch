@@ -1,12 +1,13 @@
 package com.thangavel.product.external;
 
+import com.thangavel.product.utils.ProductUtils;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.Map;
 
-@FeignClient(name = "authentication", url = "http://localhost:8005/api/v1/auth")
+@FeignClient(name = "authentication", url = ProductUtils.AUTH_SERVICE_URL)
 public interface AuthFeignClient {
 
     @GetMapping("/validate")
